@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Youooo Resume Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+    }
+
+    header {
+      padding: 15px;
+      background: #111827;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .form, .preview {
+      flex: 1;
+      padding: 20px;
+      min-width: 300px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: white;
+    }
+
+    button {
+      padding: 10px;
+      width: 100%;
+      background: #2563eb;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .resume {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    h2 {
+      border-bottom: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  🚀 Youooo Resume Builder
+</header>
+
+<div class="container">
+
+  <!-- FORM -->
+  <div class="form">
+    <h2>Fill Your Info</h2>
+
+    <input id="name" placeholder="Your Name">
+    <input id="title" placeholder="Job Title">
+
+    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+
+    <textarea id="experience" placeholder="Experience"></textarea>
+
+    <textarea id="education" placeholder="Education"></textarea>
+
+    <button onclick="generateResume()">Generate Resume</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview">
+    <h2>Preview</h2>
+
+    <div id="resume" class="resume">
+      <h1 id="r-name">Your Name</h1>
+      <p id="r-title">Job Title</p>
+
+      <h2>Skills</h2>
+      <p id="r-skills"></p>
+
+      <h2>Experience</h2>
+      <p id="r-exp"></p>
+
+      <h2>Education</h2>
+      <p id="r-edu"></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+function generateResume() {
+  document.getElementById("r-name").innerText =
+    document.getElementById("name").value;
+
+  document.getElementById("r-title").innerText =
+    document.getElementById("title").value;
+
+  document.getElementById("r-skills").innerText =
+    document.getElementById("skills").value;
+
+  document.getElementById("r-exp").innerText =
+    document.getElementById("experience").value;
+
+  document.getElementById("r-edu").innerText =
+    document.getElementById("education").value;
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.text(document.getElementById("resume").innerText, 10, 10);
+  doc.save("youooo-resume.pdf");
+}
+</script>
+
+</body>
+</html>
