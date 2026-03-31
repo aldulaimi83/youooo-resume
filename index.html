@@ -1,144 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Youooo Resume Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: white;
-    }
-
-    header {
-      padding: 15px;
-      background: #111827;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .form, .preview {
-      flex: 1;
-      padding: 20px;
-      min-width: 300px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      background: #161b22;
-      border: 1px solid #30363d;
-      color: white;
-    }
-
-    button {
-      padding: 10px;
-      width: 100%;
-      background: #2563eb;
-      border: none;
-      color: white;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .resume {
-      background: white;
-      color: black;
-      padding: 20px;
-      border-radius: 5px;
-    }
-
-    h2 {
-      border-bottom: 2px solid #ccc;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Youooo Resume V1</title>
+  <meta
+    name="description"
+    content="Build a professional resume in minutes with Youooo Resume. Public-facing resume builder with live preview, ATS-friendly templates, and PDF export."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand">
+        <div class="brand-mark">Y</div>
+        <div>
+          <div class="brand-name">Youooo Resume</div>
+          <div class="brand-sub">Professional resumes for everyone</div>
+        </div>
+      </a>
 
-<header>
-  🚀 Youooo Resume Builder
-</header>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="#builder">Builder</a>
+        <a href="#tips">ATS Tips</a>
+      </nav>
 
-<div class="container">
-
-  <!-- FORM -->
-  <div class="form">
-    <h2>Fill Your Info</h2>
-
-    <input id="name" placeholder="Your Name">
-    <input id="title" placeholder="Job Title">
-
-    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
-
-    <textarea id="experience" placeholder="Experience"></textarea>
-
-    <textarea id="education" placeholder="Education"></textarea>
-
-    <button onclick="generateResume()">Generate Resume</button>
-    <button onclick="downloadPDF()">Download PDF</button>
-  </div>
-
-  <!-- PREVIEW -->
-  <div class="preview">
-    <h2>Preview</h2>
-
-    <div id="resume" class="resume">
-      <h1 id="r-name">Your Name</h1>
-      <p id="r-title">Job Title</p>
-
-      <h2>Skills</h2>
-      <p id="r-skills"></p>
-
-      <h2>Experience</h2>
-      <p id="r-exp"></p>
-
-      <h2>Education</h2>
-      <p id="r-edu"></p>
+      <a href="#builder" class="btn btn-primary">Start Building</a>
     </div>
-  </div>
+  </header>
 
-</div>
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Youooo Academy Product</span>
+          <h1>Build a job-ready resume in minutes.</h1>
+          <p>
+            Youooo Resume helps anyone create a clean, modern, ATS-friendly resume
+            with live preview, smart sections, and quick PDF export.
+          </p>
 
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+          <div class="hero-actions">
+            <a href="#builder" class="btn btn-primary">Build Resume Now</a>
+            <button class="btn btn-secondary" id="loadDemoBtn">Load Demo Resume</button>
+          </div>
 
-<script>
-function generateResume() {
-  document.getElementById("r-name").innerText =
-    document.getElementById("name").value;
+          <div class="hero-points">
+            <span>ATS-friendly</span>
+            <span>Live preview</span>
+            <span>Mobile-ready</span>
+            <span>Free to use</span>
+          </div>
+        </div>
 
-  document.getElementById("r-title").innerText =
-    document.getElementById("title").value;
+        <div class="hero-card">
+          <div class="mini-resume">
+            <div class="mini-top"></div>
+            <div class="mini-line w-70"></div>
+            <div class="mini-line w-50"></div>
+            <div class="mini-line w-90"></div>
+            <div class="mini-line w-85"></div>
+            <div class="mini-line w-60"></div>
+            <div class="mini-block"></div>
+            <div class="mini-line w-95"></div>
+            <div class="mini-line w-88"></div>
+            <div class="mini-line w-76"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  document.getElementById("r-skills").innerText =
-    document.getElementById("skills").value;
+    <section class="features section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Why Youooo Resume</span>
+          <h2>Made for real job seekers</h2>
+          <p>Simple enough for beginners, strong enough for professional use.</p>
+        </div>
 
-  document.getElementById("r-exp").innerText =
-    document.getElementById("experience").value;
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Live Resume Preview</h3>
+            <p>See your resume update instantly as you type.</p>
+          </article>
+          <article class="feature-card">
+            <h3>ATS-Friendly Layout</h3>
+            <p>Clean structure that works well with hiring systems.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Fast PDF Export</h3>
+            <p>Print or save your resume as a PDF in one click.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Template Styles</h3>
+            <p>Switch between modern, classic, and minimal looks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  document.getElementById("r-edu").innerText =
-    document.getElementById("education").value;
-}
+    <section class="builder-section section" id="builder">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Resume Builder</span>
+          <h2>Create your resume</h2>
+          <p>Fill the fields on the left. Your resume updates on the right.</p>
+        </div>
 
-function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+        <div class="builder-layout">
+          <aside class="builder-panel">
+            <div class="panel-actions sticky-top">
+              <button class="btn btn-primary full" id="saveBtn">Save Progress</button>
+              <button class="btn btn-secondary full" id="clearBtn">Clear All</button>
+              <button class="btn btn-dark full" id="printBtn">Download / Print PDF</button>
+            </div>
 
-  doc.text(document.getElementById("resume").innerText, 10, 10);
-  doc.save("youooo-resume.pdf");
-}
-</script>
+            <div class="form-card">
+              <h3>Template</h3>
+              <div class="template-switcher">
+                <button class="template-btn active" data-template="modern">Modern</button>
+                <button class="template-btn" data-template="classic">Classic</button>
+                <button class="template-btn" data-template="minimal">Minimal</button>
+              </div>
+            </div>
 
+            <div class="form-card">
+              <h3>Personal Information</h3>
+              <div class="form-grid">
+                <label>
+                  Full Name
+                  <input type="text" id="fullName" placeholder="Your full name" />
+                </label>
+                <label>
+                  Professional Title
+                  <input type="text" id="jobTitle" placeholder="Cloud Engineer, Validation Engineer..." />
+                </label>
+                <label>
+                  Email
+                  <input type="email" id="email" placeholder="you@example.com" />
+                </label>
+                <label>
+                  Phone
+                  <input type="text" id="phone" placeholder="+1 555 555 5555" />
+                </label>
+                <label>
+                  Location
+                  <input type="text" id="location" placeholder="Austin, TX" />
+                </label>
+                <label>
+                  LinkedIn / Portfolio
+                  <input type="text" id="website" placeholder="linkedin.com/in/yourname" />
+                </label>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <h3>Professional Summary</h3>
+              <label>
+                Summary
+                <textarea id="summary" rows="5" placeholder="Write a short professional summary that highlights your experience and strengths."></textarea>
+              </label>
+            </div>
+
+            <div class="form-card">
+              <h3>Skills</h3>
+              <label>
+                Skills (comma separated)
+                <input type="text" id="skills" placeholder="Python, AWS, Validation, Linux, SQL" />
+              </label>
+            </div>
+
+            <div class="form-card">
+              <h3>Experience</h3>
+              <div id="experienceList"></div>
+              <button class="btn btn-secondary full" id="addExperienceBtn">+ Add Experience</button>
+            </div>
+
+            <div class="form-card">
+              <h3>Education</h3>
+              <div id="educationList"></div>
+              <button class="btn btn-secondary full" id="addEducationBtn">+ Add Education</button>
+            </div>
+
+            <div class="form-card">
+              <h3>Projects</h3>
+              <label>
+                Projects / Achievements
+                <textarea id="projects" rows="5" placeholder="List key projects, websites, certifications, or achievements. Use one line per item."></textarea>
+              </label>
+            </div>
+          </aside>
+
+          <section class="preview-panel">
+            <div class="resume-paper modern" id="resumePreview">
+              <div class="resume-header">
+                <h1 id="previewName">Your Name</h1>
+                <h2 id="previewTitle">Professional Title</h2>
+                <div class="resume-contact" id="previewContact">
+                  <span>email@example.com</span>
+                  <span>+1 555 555 5555</span>
+                  <span>City, State</span>
+                  <span>linkedin.com/in/yourname</span>
+                </div>
+              </div>
+
+              <div class="resume-section">
+                <h3>Professional Summary</h3>
+                <p id="previewSummary">
+                  A clear, results-driven professional summary will appear here.
+                </p>
+              </div>
+
+              <div class="resume-section">
+                <h3>Skills</h3>
+                <div class="skills-wrap" id="previewSkills">
+                  <span class="skill-tag">Skill</span>
+                  <span class="skill-tag">Skill</span>
+                  <span class="skill-tag">Skill</span>
+                </div>
+              </div>
+
+              <div class="resume-section">
+                <h3>Experience</h3>
+                <div id="previewExperience"></div>
+              </div>
+
+              <div class="resume-section">
+                <h3>Education</h3>
+                <div id="previewEducation"></div>
+              </div>
+
+              <div class="resume-section">
+                <h3>Projects & Achievements</h3>
+                <ul id="previewProjects" class="bullet-list">
+                  <li>Your projects and achievements will appear here.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="tips section" id="tips">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">ATS Tips</span>
+          <h2>How to make your resume stronger</h2>
+        </div>
+
+        <div class="tips-grid">
+          <article class="tip-card">
+            <h3>Use real job titles</h3>
+            <p>Match your target role using titles recruiters search for.</p>
+          </article>
+          <article class="tip-card">
+            <h3>Show results</h3>
+            <p>Write bullets with numbers, impact, and specific achievements.</p>
+          </article>
+          <article class="tip-card">
+            <h3>Keep it clean</h3>
+            <p>Avoid too many graphics, tables, or complicated layouts.</p>
+          </article>
+          <article class="tip-card">
+            <h3>Add keywords naturally</h3>
+            <p>Include tools, skills, and technologies mentioned in the job post.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Youooo Resume V1</strong>
+        <p>Part of the Youooo Academy ecosystem.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#builder">Builder</a>
+        <a href="#tips">ATS Tips</a>
+      </div>
+    </div>
+  </footer>
+
+  <template id="experienceTemplate">
+    <div class="repeat-item experience-item">
+      <div class="repeat-head">
+        <h4>Experience Item</h4>
+        <button class="remove-btn" type="button">Remove</button>
+      </div>
+      <label>
+        Job Title
+        <input type="text" class="exp-role" placeholder="Validation Engineer" />
+      </label>
+      <label>
+        Company
+        <input type="text" class="exp-company" placeholder="AMD" />
+      </label>
+      <div class="two-col">
+        <label>
+          Start Date
+          <input type="text" class="exp-start" placeholder="2024" />
+        </label>
+        <label>
+          End Date
+          <input type="text" class="exp-end" placeholder="Present" />
+        </label>
+      </div>
+      <label>
+        Description
+        <textarea class="exp-desc" rows="4" placeholder="Describe your responsibilities and results. Use short bullet-style sentences."></textarea>
+      </label>
+    </div>
+  </template>
+
+  <template id="educationTemplate">
+    <div class="repeat-item education-item">
+      <div class="repeat-head">
+        <h4>Education Item</h4>
+        <button class="remove-btn" type="button">Remove</button>
+      </div>
+      <label>
+        Degree
+        <input type="text" class="edu-degree" placeholder="B.S. in Electrical Engineering" />
+      </label>
+      <label>
+        School
+        <input type="text" class="edu-school" placeholder="University Name" />
+      </label>
+      <div class="two-col">
+        <label>
+          Start / Year
+          <input type="text" class="edu-start" placeholder="2019" />
+        </label>
+        <label>
+          End / Year
+          <input type="text" class="edu-end" placeholder="2023" />
+        </label>
+      </div>
+      <label>
+        Notes
+        <input type="text" class="edu-notes" placeholder="Honors, GPA, focus area, certificates..." />
+      </label>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
 </body>
 </html>
