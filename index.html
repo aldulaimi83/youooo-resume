@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Youooo Resume V1</title>
+  <title>Youooo Resume V2</title>
   <meta
     name="description"
-    content="Build a professional resume in minutes with Youooo Resume. Public-facing resume builder with live preview, ATS-friendly templates, and PDF export."
+    content="Youooo Resume V2 - build ATS-friendly resumes, match to job descriptions, and improve bullet points with smart AI-style suggestions."
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,14 +23,15 @@
         <div class="brand-mark">Y</div>
         <div>
           <div class="brand-name">Youooo Resume</div>
-          <div class="brand-sub">Professional resumes for everyone</div>
+          <div class="brand-sub">Resume builder + job match assistant</div>
         </div>
       </a>
 
       <nav class="nav">
         <a href="#features">Features</a>
         <a href="#builder">Builder</a>
-        <a href="#tips">ATS Tips</a>
+        <a href="#matcher">JD Match</a>
+        <a href="#tips">Tips</a>
       </nav>
 
       <a href="#builder" class="btn btn-primary">Start Building</a>
@@ -42,10 +43,11 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <span class="eyebrow">Youooo Academy Product</span>
-          <h1>Build a job-ready resume in minutes.</h1>
+          <h1>Build a smarter resume, not just a prettier one.</h1>
           <p>
-            Youooo Resume helps anyone create a clean, modern, ATS-friendly resume
-            with live preview, smart sections, and quick PDF export.
+            Youooo Resume V2 helps users create a professional ATS-friendly resume,
+            compare it against a job description, and improve weak resume bullets
+            with smart rewrite suggestions.
           </p>
 
           <div class="hero-actions">
@@ -55,24 +57,36 @@
 
           <div class="hero-points">
             <span>ATS-friendly</span>
-            <span>Live preview</span>
-            <span>Mobile-ready</span>
-            <span>Free to use</span>
+            <span>JD matching</span>
+            <span>AI-style bullet improvement</span>
+            <span>Export to PDF</span>
           </div>
         </div>
 
         <div class="hero-card">
-          <div class="mini-resume">
-            <div class="mini-top"></div>
-            <div class="mini-line w-70"></div>
-            <div class="mini-line w-50"></div>
-            <div class="mini-line w-90"></div>
-            <div class="mini-line w-85"></div>
-            <div class="mini-line w-60"></div>
-            <div class="mini-block"></div>
-            <div class="mini-line w-95"></div>
-            <div class="mini-line w-88"></div>
-            <div class="mini-line w-76"></div>
+          <div class="hero-score-card">
+            <div class="hero-score-top">
+              <span class="mini-badge">Resume Match</span>
+              <strong>82%</strong>
+            </div>
+            <div class="score-bar">
+              <div class="score-fill score-82"></div>
+            </div>
+
+            <div class="hero-score-list">
+              <div class="hero-score-item">
+                <span>Matched Keywords</span>
+                <strong>AWS, Linux, Python</strong>
+              </div>
+              <div class="hero-score-item">
+                <span>Suggested Additions</span>
+                <strong>CI/CD, Terraform</strong>
+              </div>
+              <div class="hero-score-item">
+                <span>Bullet Upgrade</span>
+                <strong>Action + Result + Metric</strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -81,27 +95,27 @@
     <section class="features section" id="features">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Why Youooo Resume</span>
-          <h2>Made for real job seekers</h2>
-          <p>Simple enough for beginners, strong enough for professional use.</p>
+          <span class="eyebrow">Why V2</span>
+          <h2>More than a resume form</h2>
+          <p>This version helps users shape their resume for real job applications.</p>
         </div>
 
         <div class="feature-grid">
           <article class="feature-card">
             <h3>Live Resume Preview</h3>
-            <p>See your resume update instantly as you type.</p>
+            <p>Your resume updates in real time while typing.</p>
           </article>
           <article class="feature-card">
-            <h3>ATS-Friendly Layout</h3>
-            <p>Clean structure that works well with hiring systems.</p>
+            <h3>Job Description Matching</h3>
+            <p>Paste a JD and instantly see keyword coverage and missing skills.</p>
           </article>
           <article class="feature-card">
-            <h3>Fast PDF Export</h3>
-            <p>Print or save your resume as a PDF in one click.</p>
+            <h3>AI Bullet Improvement</h3>
+            <p>Turn weak bullets into stronger achievement-focused lines.</p>
           </article>
           <article class="feature-card">
-            <h3>Template Styles</h3>
-            <p>Switch between modern, classic, and minimal looks.</p>
+            <h3>Resume Score</h3>
+            <p>Get a simple score for completeness, match, and impact.</p>
           </article>
         </div>
       </div>
@@ -112,7 +126,7 @@
         <div class="section-head">
           <span class="eyebrow">Resume Builder</span>
           <h2>Create your resume</h2>
-          <p>Fill the fields on the left. Your resume updates on the right.</p>
+          <p>Fill the form, improve bullets, match a job description, and export.</p>
         </div>
 
         <div class="builder-layout">
@@ -129,6 +143,35 @@
                 <button class="template-btn active" data-template="modern">Modern</button>
                 <button class="template-btn" data-template="classic">Classic</button>
                 <button class="template-btn" data-template="minimal">Minimal</button>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <h3>Resume Score</h3>
+              <div class="score-card">
+                <div class="score-main">
+                  <div class="score-number" id="resumeScore">0</div>
+                  <div class="score-label">Overall Score</div>
+                </div>
+
+                <div class="score-bar">
+                  <div class="score-fill" id="resumeScoreFill"></div>
+                </div>
+
+                <div class="score-breakdown">
+                  <div class="score-row">
+                    <span>Completeness</span>
+                    <strong id="completenessScore">0%</strong>
+                  </div>
+                  <div class="score-row">
+                    <span>Impact Bullets</span>
+                    <strong id="impactScore">0%</strong>
+                  </div>
+                  <div class="score-row">
+                    <span>Job Match</span>
+                    <strong id="matchScore">0%</strong>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -166,20 +209,24 @@
               <h3>Professional Summary</h3>
               <label>
                 Summary
-                <textarea id="summary" rows="5" placeholder="Write a short professional summary that highlights your experience and strengths."></textarea>
+                <textarea id="summary" rows="5" placeholder="Write a short professional summary highlighting your experience, tools, and results."></textarea>
               </label>
+              <button class="btn btn-secondary full mt12" id="improveSummaryBtn">Improve Summary</button>
             </div>
 
             <div class="form-card">
               <h3>Skills</h3>
               <label>
                 Skills (comma separated)
-                <input type="text" id="skills" placeholder="Python, AWS, Validation, Linux, SQL" />
+                <input type="text" id="skills" placeholder="Python, AWS, Linux, Validation, SQL" />
               </label>
             </div>
 
             <div class="form-card">
-              <h3>Experience</h3>
+              <div class="card-title-row">
+                <h3>Experience</h3>
+                <button class="mini-btn" id="improveAllBulletsBtn" type="button">Improve All Bullets</button>
+              </div>
               <div id="experienceList"></div>
               <button class="btn btn-secondary full" id="addExperienceBtn">+ Add Experience</button>
             </div>
@@ -194,8 +241,9 @@
               <h3>Projects</h3>
               <label>
                 Projects / Achievements
-                <textarea id="projects" rows="5" placeholder="List key projects, websites, certifications, or achievements. Use one line per item."></textarea>
+                <textarea id="projects" rows="6" placeholder="Use one line per item. Example: Built a cloud dashboard that reduced troubleshooting time by 30%."></textarea>
               </label>
+              <button class="btn btn-secondary full mt12" id="improveProjectsBtn">Improve Project Bullets</button>
             </div>
           </aside>
 
@@ -214,15 +262,12 @@
 
               <div class="resume-section">
                 <h3>Professional Summary</h3>
-                <p id="previewSummary">
-                  A clear, results-driven professional summary will appear here.
-                </p>
+                <p id="previewSummary">A clear, results-driven professional summary will appear here.</p>
               </div>
 
               <div class="resume-section">
                 <h3>Skills</h3>
                 <div class="skills-wrap" id="previewSkills">
-                  <span class="skill-tag">Skill</span>
                   <span class="skill-tag">Skill</span>
                   <span class="skill-tag">Skill</span>
                 </div>
@@ -250,29 +295,87 @@
       </div>
     </section>
 
+    <section class="matcher section" id="matcher">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Job Description Match</span>
+          <h2>Paste a job description and compare</h2>
+          <p>The site checks keyword alignment and suggests what to strengthen.</p>
+        </div>
+
+        <div class="matcher-layout">
+          <div class="matcher-card">
+            <h3>Job Description</h3>
+            <textarea id="jobDescription" rows="14" placeholder="Paste the full job description here..."></textarea>
+            <div class="matcher-actions">
+              <button class="btn btn-primary" id="analyzeMatchBtn">Analyze Match</button>
+              <button class="btn btn-secondary" id="loadDemoJdBtn">Load Demo JD</button>
+            </div>
+          </div>
+
+          <div class="matcher-card">
+            <div class="match-top">
+              <div>
+                <h3>Match Results</h3>
+                <p class="muted">Quick ATS-style comparison between resume and JD.</p>
+              </div>
+              <div class="match-badge" id="matchBadge">0%</div>
+            </div>
+
+            <div class="score-bar">
+              <div class="score-fill" id="jdMatchFill"></div>
+            </div>
+
+            <div class="match-grid">
+              <div class="match-box">
+                <h4>Matched Keywords</h4>
+                <div class="tag-wrap" id="matchedKeywords">
+                  <span class="empty-text">Analyze a job description to see matched keywords.</span>
+                </div>
+              </div>
+
+              <div class="match-box">
+                <h4>Missing Keywords</h4>
+                <div class="tag-wrap" id="missingKeywords">
+                  <span class="empty-text">Missing keywords will show here.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="match-box mt16">
+              <h4>Smart Suggestions</h4>
+              <ul class="bullet-list" id="matchSuggestions">
+                <li>Add a job description to get improvement suggestions.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="tips section" id="tips">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">ATS Tips</span>
-          <h2>How to make your resume stronger</h2>
+          <span class="eyebrow">Resume Tips</span>
+          <h2>How to make it stronger</h2>
         </div>
 
         <div class="tips-grid">
           <article class="tip-card">
-            <h3>Use real job titles</h3>
-            <p>Match your target role using titles recruiters search for.</p>
+            <h3>Lead with action verbs</h3>
+            <p>Use verbs like built, improved, automated, reduced, validated, delivered.</p>
           </article>
           <article class="tip-card">
             <h3>Show results</h3>
-            <p>Write bullets with numbers, impact, and specific achievements.</p>
+            <p>Whenever possible, add numbers, percentages, time savings, or scale.</p>
           </article>
           <article class="tip-card">
-            <h3>Keep it clean</h3>
-            <p>Avoid too many graphics, tables, or complicated layouts.</p>
+            <h3>Match the JD naturally</h3>
+            <p>Use important keywords honestly where they reflect real experience.</p>
           </article>
           <article class="tip-card">
-            <h3>Add keywords naturally</h3>
-            <p>Include tools, skills, and technologies mentioned in the job post.</p>
+            <h3>Keep formatting clean</h3>
+            <p>Simple layouts usually work better with applicant tracking systems.</p>
           </article>
         </div>
       </div>
@@ -282,13 +385,13 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong>Youooo Resume V1</strong>
+        <strong>Youooo Resume V2</strong>
         <p>Part of the Youooo Academy ecosystem.</p>
       </div>
       <div class="footer-links">
         <a href="#home">Home</a>
         <a href="#builder">Builder</a>
-        <a href="#tips">ATS Tips</a>
+        <a href="#matcher">JD Match</a>
       </div>
     </div>
   </footer>
@@ -297,16 +400,22 @@
     <div class="repeat-item experience-item">
       <div class="repeat-head">
         <h4>Experience Item</h4>
-        <button class="remove-btn" type="button">Remove</button>
+        <div class="repeat-actions">
+          <button class="mini-btn improve-bullet-btn" type="button">Improve Bullets</button>
+          <button class="remove-btn" type="button">Remove</button>
+        </div>
       </div>
+
       <label>
         Job Title
         <input type="text" class="exp-role" placeholder="Validation Engineer" />
       </label>
+
       <label>
         Company
         <input type="text" class="exp-company" placeholder="AMD" />
       </label>
+
       <div class="two-col">
         <label>
           Start Date
@@ -317,10 +426,15 @@
           <input type="text" class="exp-end" placeholder="Present" />
         </label>
       </div>
+
       <label>
-        Description
-        <textarea class="exp-desc" rows="4" placeholder="Describe your responsibilities and results. Use short bullet-style sentences."></textarea>
+        Description / Bullets
+        <textarea class="exp-desc" rows="6" placeholder="Use one bullet per line. Example: Supported Linux-based validation systems for large-scale memory testing."></textarea>
       </label>
+
+      <div class="helper-text">
+        Tip: use one bullet per line. The improve tool rewrites each line into stronger resume bullets.
+      </div>
     </div>
   </template>
 
@@ -330,14 +444,17 @@
         <h4>Education Item</h4>
         <button class="remove-btn" type="button">Remove</button>
       </div>
+
       <label>
         Degree
         <input type="text" class="edu-degree" placeholder="B.S. in Electrical Engineering" />
       </label>
+
       <label>
         School
         <input type="text" class="edu-school" placeholder="University Name" />
       </label>
+
       <div class="two-col">
         <label>
           Start / Year
@@ -348,6 +465,7 @@
           <input type="text" class="edu-end" placeholder="2023" />
         </label>
       </div>
+
       <label>
         Notes
         <input type="text" class="edu-notes" placeholder="Honors, GPA, focus area, certificates..." />
