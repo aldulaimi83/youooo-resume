@@ -3,27 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Youooo Resume V2</title>
-  <meta
-    name="description"
-    content="Youooo Resume V2 - build ATS-friendly resumes, match to job descriptions, and improve bullet points with smart AI-style suggestions."
-  />
+  <title>Youooo Resume — AI Resume Builder & Cover Letter Generator</title>
+  <meta name="description" content="Free AI resume builder. Write professional resume bullets, summaries, and cover letters in seconds using AI. ATS-friendly, JD matching, and PDF export." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- ── AI Setup Modal ───────────────────────────────────────── -->
+  <div class="modal-overlay hidden" id="aiModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">
+          <span class="ai-spark-icon">✨</span>
+          <strong>Activate Free AI</strong>
+        </div>
+        <button class="modal-close" id="closeAiModal">✕</button>
+      </div>
+
+      <p class="modal-desc">This site uses Google Gemini AI — completely free, no credit card needed. Get your free API key in 60 seconds.</p>
+
+      <div class="modal-steps">
+        <div class="modal-step">
+          <span class="step-num">1</span>
+          <span>Visit <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">aistudio.google.com/app/apikey</a></span>
+        </div>
+        <div class="modal-step">
+          <span class="step-num">2</span>
+          <span>Click <strong>"Create API key"</strong> and copy it</span>
+        </div>
+        <div class="modal-step">
+          <span class="step-num">3</span>
+          <span>Paste it below and click Save</span>
+        </div>
+      </div>
+
+      <label class="modal-label">
+        Your Gemini API Key
+        <input type="password" id="aiKeyInput" placeholder="AIzaSy..." autocomplete="off" />
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn btn-ai full" id="saveAiKeyBtn">Save &amp; Activate AI ✨</button>
+        <button class="btn btn-secondary" id="clearAiKeyBtn">Remove Key</button>
+      </div>
+
+      <div id="aiKeyStatus" class="ai-key-status hidden"></div>
+    </div>
+  </div>
+
+  <!-- ── AI Hint Toast ────────────────────────────────────────── -->
+  <div class="ai-hint-toast hidden" id="aiHintToast">
+    💡 Free AI available — click <strong>✨ AI</strong> in the header to activate
+  </div>
+
+  <!-- ── Header ───────────────────────────────────────────────── -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="#home" class="brand">
         <div class="brand-mark">Y</div>
         <div>
           <div class="brand-name">Youooo Resume</div>
-          <div class="brand-sub">Resume builder + job match assistant</div>
+          <div class="brand-sub">AI resume builder + cover letter</div>
         </div>
       </a>
 
@@ -31,23 +74,30 @@
         <a href="#features">Features</a>
         <a href="#builder">Builder</a>
         <a href="#matcher">JD Match</a>
+        <a href="#coverletter">Cover Letter</a>
         <a href="#tips">Tips</a>
       </nav>
 
-      <a href="#builder" class="btn btn-primary">Start Building</a>
+      <div class="header-right">
+        <button class="btn btn-ai-key" id="openAiModalBtn">
+          <span class="key-dot" id="aiKeyDot"></span>
+          ✨ AI
+        </button>
+        <a href="#builder" class="btn btn-primary">Start Building</a>
+      </div>
     </div>
   </header>
 
   <main id="home">
+
+    <!-- ── Hero ─────────────────────────────────────────────────── -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow">Youooo Academy Product</span>
-          <h1>Build a smarter resume, not just a prettier one.</h1>
+          <span class="eyebrow">Free AI Resume Builder</span>
+          <h1>Build a smarter resume with AI, not just a prettier one.</h1>
           <p>
-            Youooo Resume V2 helps users create a professional ATS-friendly resume,
-            compare it against a job description, and improve weak resume bullets
-            with smart rewrite suggestions.
+            Youooo Resume uses free AI to write your resume bullets, professional summary, and cover letter — tailored to any job description.
           </p>
 
           <div class="hero-actions">
@@ -56,9 +106,10 @@
           </div>
 
           <div class="hero-points">
+            <span>✨ AI writing</span>
             <span>ATS-friendly</span>
             <span>JD matching</span>
-            <span>AI-style bullet improvement</span>
+            <span>Cover letter</span>
             <span>Export to PDF</span>
           </div>
         </div>
@@ -66,25 +117,25 @@
         <div class="hero-card">
           <div class="hero-score-card">
             <div class="hero-score-top">
-              <span class="mini-badge">Resume Match</span>
-              <strong>82%</strong>
+              <span class="mini-badge">AI Resume Match</span>
+              <strong>92%</strong>
             </div>
             <div class="score-bar">
-              <div class="score-fill score-82"></div>
+              <div class="score-fill score-92"></div>
             </div>
 
             <div class="hero-score-list">
               <div class="hero-score-item">
-                <span>Matched Keywords</span>
-                <strong>AWS, Linux, Python</strong>
+                <span>AI Wrote Summary</span>
+                <strong>Results-driven Cloud Engineer…</strong>
               </div>
               <div class="hero-score-item">
-                <span>Suggested Additions</span>
-                <strong>CI/CD, Terraform</strong>
+                <span>AI Bullets</span>
+                <strong>• Automated pipelines, cutting deploy time 40%</strong>
               </div>
               <div class="hero-score-item">
-                <span>Bullet Upgrade</span>
-                <strong>Action + Result + Metric</strong>
+                <span>Cover Letter</span>
+                <strong>AI-generated, tailored to JD ✓</strong>
               </div>
             </div>
           </div>
@@ -92,41 +143,47 @@
       </div>
     </section>
 
+    <!-- ── Features ──────────────────────────────────────────────── -->
     <section class="features section" id="features">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Why V2</span>
-          <h2>More than a resume form</h2>
-          <p>This version helps users shape their resume for real job applications.</p>
+          <span class="eyebrow">What's Inside</span>
+          <h2>Everything you need to land the job</h2>
+          <p>Free AI-powered tools that usually cost $50+ per resume.</p>
         </div>
 
         <div class="feature-grid">
           <article class="feature-card">
-            <h3>Live Resume Preview</h3>
-            <p>Your resume updates in real time while typing.</p>
+            <div class="feature-icon">✨</div>
+            <h3>AI Summary Writer</h3>
+            <p>Describe yourself, AI writes a polished professional summary instantly.</p>
           </article>
           <article class="feature-card">
-            <h3>Job Description Matching</h3>
-            <p>Paste a JD and instantly see keyword coverage and missing skills.</p>
+            <div class="feature-icon">🎯</div>
+            <h3>AI Bullet Writer</h3>
+            <p>Type rough job notes, AI converts them into strong achievement bullets.</p>
           </article>
           <article class="feature-card">
-            <h3>AI Bullet Improvement</h3>
-            <p>Turn weak bullets into stronger achievement-focused lines.</p>
+            <div class="feature-icon">📋</div>
+            <h3>AI Cover Letter</h3>
+            <p>Paste the job description and get a tailored cover letter in seconds.</p>
           </article>
           <article class="feature-card">
-            <h3>Resume Score</h3>
-            <p>Get a simple score for completeness, match, and impact.</p>
+            <div class="feature-icon">🔍</div>
+            <h3>JD Keyword Match</h3>
+            <p>See exactly which keywords you're missing and get a match score.</p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- ── Builder ───────────────────────────────────────────────── -->
     <section class="builder-section section" id="builder">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Resume Builder</span>
           <h2>Create your resume</h2>
-          <p>Fill the form, improve bullets, match a job description, and export.</p>
+          <p>Fill the form and use AI to write your content — then export as PDF.</p>
         </div>
 
         <div class="builder-layout">
@@ -137,6 +194,7 @@
               <button class="btn btn-dark full" id="printBtn">Download / Print PDF</button>
             </div>
 
+            <!-- Template -->
             <div class="form-card">
               <h3>Template</h3>
               <div class="template-switcher">
@@ -146,6 +204,7 @@
               </div>
             </div>
 
+            <!-- Score -->
             <div class="form-card">
               <h3>Resume Score</h3>
               <div class="score-card">
@@ -153,67 +212,41 @@
                   <div class="score-number" id="resumeScore">0</div>
                   <div class="score-label">Overall Score</div>
                 </div>
-
                 <div class="score-bar">
                   <div class="score-fill" id="resumeScoreFill"></div>
                 </div>
-
                 <div class="score-breakdown">
-                  <div class="score-row">
-                    <span>Completeness</span>
-                    <strong id="completenessScore">0%</strong>
-                  </div>
-                  <div class="score-row">
-                    <span>Impact Bullets</span>
-                    <strong id="impactScore">0%</strong>
-                  </div>
-                  <div class="score-row">
-                    <span>Job Match</span>
-                    <strong id="matchScore">0%</strong>
-                  </div>
+                  <div class="score-row"><span>Completeness</span><strong id="completenessScore">0%</strong></div>
+                  <div class="score-row"><span>Impact Bullets</span><strong id="impactScore">0%</strong></div>
+                  <div class="score-row"><span>Job Match</span><strong id="matchScore">0%</strong></div>
                 </div>
               </div>
             </div>
 
+            <!-- Personal Info -->
             <div class="form-card">
               <h3>Personal Information</h3>
               <div class="form-grid">
-                <label>
-                  Full Name
-                  <input type="text" id="fullName" placeholder="Your full name" />
-                </label>
-                <label>
-                  Professional Title
-                  <input type="text" id="jobTitle" placeholder="Cloud Engineer, Validation Engineer..." />
-                </label>
-                <label>
-                  Email
-                  <input type="email" id="email" placeholder="you@example.com" />
-                </label>
-                <label>
-                  Phone
-                  <input type="text" id="phone" placeholder="+1 555 555 5555" />
-                </label>
-                <label>
-                  Location
-                  <input type="text" id="location" placeholder="Austin, TX" />
-                </label>
-                <label>
-                  LinkedIn / Portfolio
-                  <input type="text" id="website" placeholder="linkedin.com/in/yourname" />
-                </label>
+                <label>Full Name<input type="text" id="fullName" placeholder="Your full name" /></label>
+                <label>Professional Title<input type="text" id="jobTitle" placeholder="Cloud Engineer, Validation Engineer..." /></label>
+                <label>Email<input type="email" id="email" placeholder="you@example.com" /></label>
+                <label>Phone<input type="text" id="phone" placeholder="+1 555 555 5555" /></label>
+                <label>Location<input type="text" id="location" placeholder="Austin, TX" /></label>
+                <label>LinkedIn / Portfolio<input type="text" id="website" placeholder="linkedin.com/in/yourname" /></label>
               </div>
             </div>
 
+            <!-- Summary -->
             <div class="form-card">
               <h3>Professional Summary</h3>
               <label>
                 Summary
-                <textarea id="summary" rows="5" placeholder="Write a short professional summary highlighting your experience, tools, and results."></textarea>
+                <textarea id="summary" rows="5" placeholder="Describe yourself or click ✨ AI Write Summary and let AI do it."></textarea>
               </label>
-              <button class="btn btn-secondary full mt12" id="improveSummaryBtn">Improve Summary</button>
+              <button class="btn btn-ai full mt12" id="improveSummaryBtn">✨ AI Write Summary</button>
             </div>
 
+            <!-- Skills -->
             <div class="form-card">
               <h3>Skills</h3>
               <label>
@@ -222,31 +255,35 @@
               </label>
             </div>
 
+            <!-- Experience -->
             <div class="form-card">
               <div class="card-title-row">
                 <h3>Experience</h3>
-                <button class="mini-btn" id="improveAllBulletsBtn" type="button">Improve All Bullets</button>
+                <button class="mini-btn btn-ai-mini" id="improveAllBulletsBtn" type="button">✨ AI Tailor All to JD</button>
               </div>
               <div id="experienceList"></div>
               <button class="btn btn-secondary full" id="addExperienceBtn">+ Add Experience</button>
             </div>
 
+            <!-- Education -->
             <div class="form-card">
               <h3>Education</h3>
               <div id="educationList"></div>
               <button class="btn btn-secondary full" id="addEducationBtn">+ Add Education</button>
             </div>
 
+            <!-- Projects -->
             <div class="form-card">
-              <h3>Projects</h3>
+              <h3>Projects &amp; Achievements</h3>
               <label>
-                Projects / Achievements
-                <textarea id="projects" rows="6" placeholder="Use one line per item. Example: Built a cloud dashboard that reduced troubleshooting time by 30%."></textarea>
+                Projects
+                <textarea id="projects" rows="6" placeholder="Type rough notes or click ✨ AI Write Projects. One line per item."></textarea>
               </label>
-              <button class="btn btn-secondary full mt12" id="improveProjectsBtn">Improve Project Bullets</button>
+              <button class="btn btn-ai full mt12" id="improveProjectsBtn">✨ AI Write Projects</button>
             </div>
           </aside>
 
+          <!-- Live Preview -->
           <section class="preview-panel">
             <div class="resume-paper modern" id="resumePreview">
               <div class="resume-header">
@@ -284,7 +321,7 @@
               </div>
 
               <div class="resume-section">
-                <h3>Projects & Achievements</h3>
+                <h3>Projects &amp; Achievements</h3>
                 <ul id="previewProjects" class="bullet-list">
                   <li>Your projects and achievements will appear here.</li>
                 </ul>
@@ -295,12 +332,13 @@
       </div>
     </section>
 
+    <!-- ── JD Matcher ────────────────────────────────────────────── -->
     <section class="matcher section" id="matcher">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Job Description Match</span>
           <h2>Paste a job description and compare</h2>
-          <p>The site checks keyword alignment and suggests what to strengthen.</p>
+          <p>See exactly which keywords you match and what to add.</p>
         </div>
 
         <div class="matcher-layout">
@@ -333,7 +371,6 @@
                   <span class="empty-text">Analyze a job description to see matched keywords.</span>
                 </div>
               </div>
-
               <div class="match-box">
                 <h4>Missing Keywords</h4>
                 <div class="tag-wrap" id="missingKeywords">
@@ -353,6 +390,70 @@
       </div>
     </section>
 
+    <!-- ── AI Cover Letter ───────────────────────────────────────── -->
+    <section class="coverletter section" id="coverletter">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">✨ AI Cover Letter</span>
+          <h2>Write a tailored cover letter in seconds</h2>
+          <p>AI reads your resume and the job description, then writes you a professional cover letter. Edit it, copy it, done.</p>
+        </div>
+
+        <div class="coverletter-layout">
+          <div class="coverletter-settings form-card">
+            <h3>Settings</h3>
+
+            <label>
+              Hiring Manager Name <span class="optional-badge">optional</span>
+              <input type="text" id="hiringManager" placeholder="e.g. Sarah Johnson" />
+            </label>
+
+            <label>
+              Company Name <span class="optional-badge">optional</span>
+              <input type="text" id="companyName" placeholder="e.g. Google, AMD, Tesla" />
+            </label>
+
+            <label>
+              Tone
+              <select id="letterTone">
+                <option value="professional">Professional &amp; Confident</option>
+                <option value="enthusiastic">Enthusiastic &amp; Energetic</option>
+                <option value="concise">Concise &amp; Direct</option>
+              </select>
+            </label>
+
+            <div class="cl-requirements">
+              <h4>Requirements</h4>
+              <ul class="cl-req-list">
+                <li id="reqResume" class="req-item req-empty">Resume data filled in</li>
+                <li id="reqJd" class="req-item req-empty">Job description pasted</li>
+                <li id="reqAi" class="req-item req-empty">AI key activated</li>
+              </ul>
+            </div>
+
+            <button class="btn btn-ai full mt12" id="generateCoverLetterBtn">
+              ✨ Generate Cover Letter
+            </button>
+          </div>
+
+          <div class="coverletter-output form-card">
+            <div class="cl-head">
+              <h3>Your Cover Letter</h3>
+              <div class="cl-btn-row">
+                <button class="mini-btn" id="copyCoverLetterBtn">Copy</button>
+                <button class="mini-btn" id="regenerateCoverLetterBtn">Regenerate</button>
+                <button class="mini-btn" id="printCoverLetterBtn">Print / PDF</button>
+              </div>
+            </div>
+            <div id="coverLetterResult" class="cl-result">
+              <p class="cl-placeholder">Your AI-generated cover letter will appear here. Fill your resume details and paste a job description first.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Tips ──────────────────────────────────────────────────── -->
     <section class="tips section" id="tips">
       <div class="container">
         <div class="section-head">
@@ -380,64 +481,52 @@
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong>Youooo Resume V2</strong>
-        <p>Part of the Youooo Academy ecosystem.</p>
+        <strong>Youooo Resume</strong>
+        <p>Free AI resume builder — powered by Google Gemini.</p>
       </div>
       <div class="footer-links">
-        <a href="#home">Home</a>
         <a href="#builder">Builder</a>
         <a href="#matcher">JD Match</a>
+        <a href="#coverletter">Cover Letter</a>
       </div>
     </div>
   </footer>
 
+  <!-- ── Experience Template ───────────────────────────────────── -->
   <template id="experienceTemplate">
     <div class="repeat-item experience-item">
       <div class="repeat-head">
         <h4>Experience Item</h4>
         <div class="repeat-actions">
-          <button class="mini-btn improve-bullet-btn" type="button">Improve Bullets</button>
+          <button class="mini-btn btn-ai-mini improve-bullet-btn" type="button">✨ AI Bullets</button>
           <button class="remove-btn" type="button">Remove</button>
         </div>
       </div>
 
-      <label>
-        Job Title
-        <input type="text" class="exp-role" placeholder="Validation Engineer" />
-      </label>
-
-      <label>
-        Company
-        <input type="text" class="exp-company" placeholder="AMD" />
-      </label>
+      <label>Job Title<input type="text" class="exp-role" placeholder="Validation Engineer" /></label>
+      <label>Company<input type="text" class="exp-company" placeholder="AMD" /></label>
 
       <div class="two-col">
-        <label>
-          Start Date
-          <input type="text" class="exp-start" placeholder="2024" />
-        </label>
-        <label>
-          End Date
-          <input type="text" class="exp-end" placeholder="Present" />
-        </label>
+        <label>Start Date<input type="text" class="exp-start" placeholder="2024" /></label>
+        <label>End Date<input type="text" class="exp-end" placeholder="Present" /></label>
       </div>
 
       <label>
         Description / Bullets
-        <textarea class="exp-desc" rows="6" placeholder="Use one bullet per line. Example: Supported Linux-based validation systems for large-scale memory testing."></textarea>
+        <textarea class="exp-desc" rows="6" placeholder="Type rough notes (e.g. &quot;worked on linux servers, helped debug issues&quot;) then click ✨ AI Bullets to rewrite professionally."></textarea>
       </label>
 
-      <div class="helper-text">
-        Tip: use one bullet per line. The improve tool rewrites each line into stronger resume bullets.
-      </div>
+      <div class="helper-text">Tip: type rough notes then click ✨ AI Bullets — AI converts them to strong resume bullets.</div>
     </div>
   </template>
 
+  <!-- ── Education Template ───────────────────────────────────── -->
   <template id="educationTemplate">
     <div class="repeat-item education-item">
       <div class="repeat-head">
@@ -445,31 +534,15 @@
         <button class="remove-btn" type="button">Remove</button>
       </div>
 
-      <label>
-        Degree
-        <input type="text" class="edu-degree" placeholder="B.S. in Electrical Engineering" />
-      </label>
-
-      <label>
-        School
-        <input type="text" class="edu-school" placeholder="University Name" />
-      </label>
+      <label>Degree<input type="text" class="edu-degree" placeholder="B.S. in Electrical Engineering" /></label>
+      <label>School<input type="text" class="edu-school" placeholder="University Name" /></label>
 
       <div class="two-col">
-        <label>
-          Start / Year
-          <input type="text" class="edu-start" placeholder="2019" />
-        </label>
-        <label>
-          End / Year
-          <input type="text" class="edu-end" placeholder="2023" />
-        </label>
+        <label>Start / Year<input type="text" class="edu-start" placeholder="2019" /></label>
+        <label>End / Year<input type="text" class="edu-end" placeholder="2023" /></label>
       </div>
 
-      <label>
-        Notes
-        <input type="text" class="edu-notes" placeholder="Honors, GPA, focus area, certificates..." />
-      </label>
+      <label>Notes<input type="text" class="edu-notes" placeholder="Honors, GPA, focus area, certificates..." /></label>
     </div>
   </template>
 
