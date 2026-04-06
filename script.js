@@ -1156,3 +1156,332 @@ if (!loadFromLocal()) {
 
 updateAiKeyDot();
 updateCoverLetterRequirements();
+
+// ============================================================
+// RESUME FILE IMPORT + AI REVIEW
+// ============================================================
+
+window.importedResumeText = '';
+
+// Configure pdf.js worker
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+}
+
+const uploadZone      = document.getElementById('uploadZone');
+const resumeFileInput = document.getElementById('resumeFileInput');
+const reviewPanel     = document.getElementById('reviewPanel');
+const reviewContent   = document.getElementById('reviewContent');
+const reviewActions   = document.getElementById('reviewActions');
+const reviewFileName  = document.getElementById('reviewFileName');
+const reviewStatus    = document.getElementById('reviewStatus');
+
+// Drag & drop events
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadZone.classList.add('drag-over');
+});
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleResumeFile(file);
+});
+
+resumeFileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) handleResumeFile(file);
+});
+
+document.getElementById('clearUploadBtn').addEventListener('click', () => {
+  window.importedResumeText = '';
+  reviewPanel.classList.add('hidden');
+  uploadZone.classList.remove('hidden');
+  reviewContent.innerHTML = '';
+  resumeFileInput.value = '';
+  document.getElementById('interviewBox').style.display = 'none';
+});
+
+document.getElementById('autoFillBtn').addEventListener('click', async () => {
+  if (!window.importedResumeText) return;
+  const btn = document.getElementById('autoFillBtn');
+  await withAiLoading(btn, () => aiExtractAndFill(window.importedResumeText));
+});
+
+document.getElementById('reReviewBtn').addEventListener('click', async () => {
+  if (!window.importedResumeText) return;
+  reviewActions.classList.add('hidden');
+  showReviewLoading();
+  await aiReviewResume(window.importedResumeText);
+});
+
+document.getElementById('genInterviewBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('genInterviewBtn');
+  const result = document.getElementById('interviewResult');
+  await withAiLoading(btn, async () => {
+    const resumeCtx = window.importedResumeText || buildResumeTextContext();
+    const jd = formEls.jobDescription ? formEls.jobDescription.value.trim() : '';
+    const prompt = `Based on this resume${jd ? ' and job description' : ''}, generate 10 likely interview questions with short tips for answering each.
+
+Resume:
+${resumeCtx.slice(0, 2000)}
+${jd ? `\nJob Description:\n${jd.slice(0, 1000)}` : ''}
+
+Format each question like:
+Q1: [Question]
+Tip: [Brief answer tip]
+
+Be specific to this person's background.`;
+    const text = await callGemini(prompt);
+    result.textContent = text;
+    result.classList.remove('hidden');
+  });
+});
+
+async function handleResumeFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['pdf', 'docx', 'txt'].includes(ext)) {
+    alert('Please upload a PDF, DOCX, or TXT file.');
+    return;
+  }
+
+  reviewFileName.textContent = file.name;
+  reviewStatus.textContent = 'Reading file…';
+  uploadZone.classList.add('hidden');
+  reviewPanel.classList.remove('hidden');
+  reviewActions.classList.add('hidden');
+  showReviewLoading();
+
+  try {
+    let text = '';
+    if (ext === 'txt')       text = await readTextFile(file);
+    else if (ext === 'pdf')  text = await readPdfFile(file);
+    else if (ext === 'docx') text = await readDocxFile(file);
+
+    if (!text.trim()) {
+      showReviewError('Could not read text from this file. Try saving it as .txt first.');
+      return;
+    }
+
+    window.importedResumeText = text;
+    document.getElementById('interviewBox').style.display = '';
+    reviewStatus.textContent = 'File read — running AI review…';
+
+    if (hasAiKey()) {
+      await aiReviewResume(text);
+    } else {
+      showBasicReview(text);
+      openAiModal();
+    }
+  } catch (err) {
+    showReviewError('Error reading file: ' + err.message);
+  }
+}
+
+function readTextFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
+}
+
+async function readPdfFile(file) {
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF library not loaded');
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let text = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page    = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item => item.str).join(' ') + '\n';
+  }
+  return text;
+}
+
+async function readDocxFile(file) {
+  if (typeof mammoth === 'undefined') throw new Error('DOCX library not loaded');
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer });
+  return result.value;
+}
+
+function showReviewLoading() {
+  reviewContent.innerHTML = `
+    <div class="review-loading">
+      <span class="review-spin">⏳</span>
+      <p>AI is reviewing your resume…</p>
+    </div>`;
+}
+
+function showReviewError(msg) {
+  reviewStatus.textContent = 'Error reading file';
+  reviewContent.innerHTML = `<div class="review-error">❌ ${msg}</div>`;
+  reviewActions.classList.remove('hidden');
+}
+
+function showBasicReview(text) {
+  const wordCount = text.trim().split(/\s+/).length;
+  const hasEmail  = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/.test(text);
+  const hasPhone  = /(\+?\d[\d\s\-(). ]{7,})/.test(text);
+  const hasBullets   = /[•\-*]/.test(text);
+  const hasNumbers   = /\d+%|\d+x|\$\d+/.test(text);
+  const hasActionVrb = /(built|improved|automated|reduced|optimized|led|delivered|developed)/i.test(text);
+
+  let score = 10;
+  const good = [], improve = [];
+
+  if (wordCount > 200)   { score += 20; good.push('Good length — enough content to work with'); }
+  else                   { improve.push('Resume seems short — add more detail to experience sections'); }
+  if (hasEmail)          { score += 10; good.push('Contact email found'); }
+  else                   { improve.push('No email detected — add contact information'); }
+  if (hasPhone)          { score += 5; }
+  if (hasBullets)        { score += 20; good.push('Bullet points found — good structure'); }
+  else                   { improve.push('No bullet points — use bullets for experience sections'); }
+  if (hasNumbers)        { score += 25; good.push('Quantified achievements found (%, $, x) — excellent!'); }
+  else                   { improve.push('Add numbers to achievements: "reduced time by 30%", "led team of 5"'); }
+  if (hasActionVrb)      { score += 10; good.push('Strong action verbs detected'); }
+  else                   { improve.push('Start bullet points with action verbs: Built, Improved, Led, Automated'); }
+
+  reviewStatus.textContent = 'Basic review done — activate AI for full analysis';
+  reviewContent.innerHTML = buildReviewHTML(
+    Math.min(score, 85), good, improve,
+    ['Activate AI above for deep analysis', 'Click Auto-Fill to load your data into the builder']
+  );
+  reviewActions.classList.remove('hidden');
+}
+
+async function aiReviewResume(text) {
+  const prompt = `You are a professional resume reviewer and career coach. Analyze this resume and return ONLY valid JSON — no markdown, no extra text.
+
+Resume:
+---
+${text.slice(0, 3500)}
+---
+
+Return exactly this JSON:
+{
+  "score": 72,
+  "strengths": ["strength 1", "strength 2", "strength 3"],
+  "improvements": ["specific improvement 1", "specific improvement 2", "specific improvement 3"],
+  "missing": ["missing element 1", "missing element 2"],
+  "topActions": ["action 1", "action 2", "action 3", "action 4", "action 5"]
+}
+
+Be specific and actionable. Reference actual content from the resume. Score 1-100.`;
+
+  try {
+    const raw  = await callGemini(prompt);
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const data  = JSON.parse(clean);
+
+    reviewStatus.textContent = `AI review complete — Score: ${data.score}/100`;
+    reviewContent.innerHTML = buildReviewHTML(
+      data.score || 50,
+      data.strengths    || [],
+      data.improvements || [],
+      data.topActions   || [],
+      data.missing      || []
+    );
+    reviewActions.classList.remove('hidden');
+  } catch (err) {
+    if (err.message !== 'No API key') {
+      showReviewError('AI review failed — ' + err.message);
+    }
+  }
+}
+
+function buildReviewHTML(score, strengths, improvements, actions, missing = []) {
+  const color = score >= 75 ? 'var(--success)' : score >= 50 ? 'var(--warning)' : 'var(--danger)';
+  const label = score >= 75 ? 'Strong Resume 💪' : score >= 50 ? 'Needs Some Work 🔧' : 'Needs Significant Work ⚠️';
+  const desc  = score >= 75
+    ? 'Your resume is competitive. A few tweaks could make it outstanding.'
+    : score >= 50
+    ? 'Good foundation — but there are clear areas that will help you get more interviews.'
+    : 'Several important areas need attention before you start applying.';
+
+  return `
+    <div class="review-score-row">
+      <div class="review-score-circle" style="border-color:${color}">
+        <span style="color:${color}">${score}</span>
+        <small>/100</small>
+      </div>
+      <div class="review-score-info">
+        <strong>${label}</strong>
+        <p>${desc}</p>
+      </div>
+    </div>
+    ${strengths.length ? `<div class="review-section"><h4 class="review-label good">✅ What's Working</h4><ul>${strengths.map(s=>`<li>${s}</li>`).join('')}</ul></div>` : ''}
+    ${improvements.length ? `<div class="review-section"><h4 class="review-label warn">⚠️ Needs Improvement</h4><ul>${improvements.map(s=>`<li>${s}</li>`).join('')}</ul></div>` : ''}
+    ${missing.length ? `<div class="review-section"><h4 class="review-label danger">❌ Missing Elements</h4><ul>${missing.map(s=>`<li>${s}</li>`).join('')}</ul></div>` : ''}
+    ${actions.length ? `<div class="review-section"><h4 class="review-label action">🎯 Top Actions to Take</h4><ol>${actions.map(s=>`<li>${s}</li>`).join('')}</ol></div>` : ''}
+  `;
+}
+
+async function aiExtractAndFill(text) {
+  const prompt = `Extract structured data from this resume. Return ONLY valid JSON, no markdown.
+
+Resume:
+---
+${text.slice(0, 3500)}
+---
+
+Return exactly:
+{
+  "fullName": "",
+  "jobTitle": "",
+  "email": "",
+  "phone": "",
+  "location": "",
+  "website": "",
+  "summary": "",
+  "skills": "",
+  "experience": [{"role":"","company":"","start":"","end":"","desc":""}],
+  "education": [{"degree":"","school":"","start":"","end":"","notes":""}],
+  "projects": ""
+}
+
+skills = comma-separated string. desc = keep bullet points. If info is missing leave blank.`;
+
+  try {
+    const raw  = await callGemini(prompt);
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const data  = JSON.parse(clean);
+
+    if (data.fullName) formEls.fullName.value = data.fullName;
+    if (data.jobTitle) formEls.jobTitle.value  = data.jobTitle;
+    if (data.email)    formEls.email.value     = data.email;
+    if (data.phone)    formEls.phone.value     = data.phone;
+    if (data.location) formEls.location.value  = data.location;
+    if (data.website)  formEls.website.value   = data.website;
+    if (data.summary)  formEls.summary.value   = data.summary;
+    if (data.skills)   formEls.skills.value    = data.skills;
+    if (data.projects) formEls.projects.value  = data.projects;
+
+    if (data.experience && data.experience.length) {
+      experienceList.innerHTML = '';
+      data.experience.forEach(exp => createExperienceItem(exp));
+    }
+    if (data.education && data.education.length) {
+      educationList.innerHTML = '';
+      data.education.forEach(edu => createEducationItem(edu));
+    }
+
+    updatePreview();
+    saveToStorage();
+    reviewStatus.textContent = '✅ Builder filled from your resume — review and improve!';
+    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+  } catch (err) {
+    if (err.message !== 'No API key') {
+      alert('Could not extract resume data: ' + err.message);
+    }
+  }
+}
+
+function buildResumeTextContext() {
+  const d = getFormData();
+  return `Name: ${d.fullName}\nTitle: ${d.jobTitle}\nSummary: ${d.summary}\nSkills: ${d.skills}\nProjects: ${d.projects}`;
+}

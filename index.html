@@ -72,6 +72,7 @@
 
       <nav class="nav">
         <a href="#features">Features</a>
+        <a href="#import">Import Resume</a>
         <a href="#builder">Builder</a>
         <a href="#matcher">JD Match</a>
         <a href="#coverletter">Cover Letter</a>
@@ -173,6 +174,68 @@
             <h3>JD Keyword Match</h3>
             <p>See exactly which keywords you're missing and get a match score.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Import Existing Resume ─────────────────────────────────── -->
+    <section class="import-section section" id="import">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Import Existing Resume</span>
+          <h2>Already have a resume? Upload it — AI will review &amp; improve it</h2>
+          <p>Upload your current resume and AI will score it, flag weak spots, and auto-fill the builder so you can refine it further.</p>
+        </div>
+
+        <div class="import-layout">
+          <!-- Upload Zone -->
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">📄</div>
+            <p class="upload-title">Drop your resume here</p>
+            <p class="upload-sub">Supports PDF, DOCX, and TXT</p>
+            <label class="btn btn-primary upload-label">
+              Choose File
+              <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt" />
+            </label>
+            <p class="upload-note">🔒 File never leaves your device — processed locally in your browser</p>
+          </div>
+
+          <!-- Review Panel (hidden until file loaded) -->
+          <div class="review-panel hidden" id="reviewPanel">
+            <div class="review-head">
+              <div>
+                <p class="review-filename" id="reviewFileName">resume.pdf</p>
+                <p class="review-status" id="reviewStatus">Reading file…</p>
+              </div>
+              <button class="mini-btn" id="clearUploadBtn">✕ Clear</button>
+            </div>
+
+            <div id="reviewContent">
+              <div class="review-loading">
+                <span class="review-spin">⏳</span>
+                <p>AI is reviewing your resume…</p>
+              </div>
+            </div>
+
+            <div class="review-actions hidden" id="reviewActions">
+              <button class="btn btn-primary" id="autoFillBtn">✨ Auto-Fill Builder from This Resume</button>
+              <button class="btn btn-secondary" id="reReviewBtn">↺ Re-Analyze</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interview Questions -->
+        <div class="interview-box" id="interviewBox" style="display:none">
+          <div class="interview-head">
+            <div>
+              <h3>🎤 AI Interview Prep</h3>
+              <p class="muted">AI generates likely interview questions based on your resume + job description</p>
+            </div>
+            <button class="btn btn-ai" id="genInterviewBtn">✨ Generate Questions</button>
+          </div>
+          <div id="interviewResult" class="interview-result hidden">
+            <p class="cl-placeholder">Questions will appear here after generation.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -546,6 +609,8 @@
     </div>
   </template>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

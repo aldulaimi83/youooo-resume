@@ -1217,3 +1217,166 @@ select:focus {
     font-size: 0.85rem;
   }
 }
+
+/* ── Import Resume Section ─────────────────────────────── */
+.import-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media(max-width:860px) { .import-layout { grid-template-columns: 1fr; } }
+
+.upload-zone {
+  border: 2px dashed var(--line);
+  border-radius: var(--radius-lg);
+  padding: 48px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  transition: border-color .2s, background .2s;
+  cursor: pointer;
+}
+.upload-zone.drag-over {
+  border-color: var(--primary);
+  background: rgba(110,168,254,.08);
+}
+.upload-icon { font-size: 3rem; }
+.upload-title { font-size: 1.15rem; font-weight: 700; margin: 0; }
+.upload-sub { color: var(--muted); margin: 0; font-size: .9rem; }
+.upload-label {
+  cursor: pointer;
+  display: inline-block;
+}
+.upload-label input[type="file"] {
+  display: none;
+}
+.upload-note { font-size: .78rem; color: var(--muted); margin: 0; }
+
+/* Review Panel */
+.review-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.review-filename {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1rem;
+  color: var(--primary);
+}
+.review-status {
+  margin: 0;
+  font-size: .85rem;
+  color: var(--muted);
+}
+.review-loading {
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.review-spin { font-size: 2rem; animation: spin 1.5s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.review-error { color: var(--danger); padding: 16px; background: rgba(255,139,139,.08); border-radius: 12px; }
+
+/* Review score */
+.review-score-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px;
+  background: rgba(255,255,255,.04);
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.review-score-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--success);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.review-score-circle span { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+.review-score-circle small { font-size: .68rem; color: var(--muted); }
+.review-score-info strong { font-size: 1rem; }
+.review-score-info p { margin: 4px 0 0; font-size: .85rem; color: var(--muted); }
+
+/* Review sections */
+.review-section {
+  margin-top: 12px;
+}
+.review-section ul, .review-section ol {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: .88rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.review-label {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin: 0 0 4px;
+}
+.review-label.good { color: var(--success); }
+.review-label.warn { color: var(--warning); }
+.review-label.danger { color: var(--danger); }
+.review-label.action { color: var(--primary); }
+
+/* Review actions */
+.review-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* Interview Box */
+.interview-box {
+  margin-top: 40px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.interview-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.interview-head h3 { margin: 0; font-size: 1.1rem; }
+.interview-head .muted { margin: 4px 0 0; font-size: .85rem; }
+.interview-result {
+  margin-top: 20px;
+  font-size: .9rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  background: rgba(255,255,255,.03);
+  border-radius: 12px;
+  padding: 18px;
+  color: var(--text);
+}
