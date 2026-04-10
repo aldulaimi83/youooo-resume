@@ -1471,7 +1471,7 @@ skills = comma-separated string. desc = keep bullet points. If info is missing l
     }
 
     updatePreview();
-    saveToStorage();
+    saveToLocal();
     reviewStatus.textContent = '✅ Builder filled from your resume — review and improve!';
     document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
   } catch (err) {
